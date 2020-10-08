@@ -1,22 +1,21 @@
 window.addEventListener('load', start);
 
 // Declarando Variáveis Globais
-var GlobalNames = [];
-var opnioes = document.querySelector('#opnioes');
-var ul = document.createElement('ul');
-var Input = document.getElementById('Input');
-var Input2 = document.getElementById('Input2');
-var Input3 = document.getElementById('Input3');
-var form = document.getElementById('Formulario');
-var form2 = document.getElementById('Formulario2');
-var form3 = document.getElementById('Formulario3');
+var GlobalNamesLivro = [];
+var opnioes_livro = document.querySelector('#opnioes_livro');
+var ul_livro = document.createElement('ul_livro');
+var Input_livro = document.getElementById('Input_livro');
+var form_livro = document.getElementById('Formulario_livro');
+var PosicaoLivro;
+
+
 var IsEditing = false;
-var Posicao;
+
 
 function start() {
-  PrevenirComportamentoDefault(form);
-  AplicarFoco(Input);
-  CapturarValoresDigitados(Input);
+  PrevenirComportamentoDefault(form_livro);
+  AplicarFoco(Input_livro);
+  CapturarValoresDigitados(Input_livro);
   ExibirVetor();
 }
 
@@ -33,17 +32,17 @@ function AplicarFoco(Objeto) {
 function CapturarValoresDigitados(Objeto) {
   Objeto.addEventListener('keyup', function (event) {
     if (event.key === 'Enter') {
-      var ValorDigitado = event.target.value; // Obtendo conteudo digitado
+      var ValorDigitadoLivro = event.target.value; // Obtendo conteudo digitado
 
       // Editar e inseris se algo for digitado
-      if (ValorDigitado) {
+      if (ValorDigitadoLivro) {
         if (IsEditing) {
           // Editando valores
-          GlobalNames.splice(Posicao, 1, ValorDigitado);
+          GlobalNamesLivro.splice(PosicaoLivro, 1, ValorDigitadoLivro);
           IsEditing = false; // Desativando modo de edição
         } else {
           // Inserindo valores
-          GlobalNames.push(ValorDigitado); // Inserindo no array GlobalNames
+          GlobalNamesLivro.push(ValorDigitadoLivro); // Inserindo no array GlobalNames
         }
       }
 
@@ -52,23 +51,44 @@ function CapturarValoresDigitados(Objeto) {
   });
 }
 
+function PrevenirComportamentoDefaultF(ObjetoF) {
+  ObjetoF.addEventListener('submit', function (event) {
+    event.preventDefault();
+  });
+}
+
+function AplicarFocoF(ObjetoF) {
+  ObjetoF.focus();
+}
+
+
+
 function ExibirVetor() {
-  // Limpa conteudo da ul e input para ter novos valores
-  ul.innerHTML = '';
-  Input.value = '';
+  // Limpa conteudo da ul e input para ter novos valoresy
+  ul_livro.innerHTML = '';
+  Input_livro.value = '';
+
+  
 
   // Para cada posição do vetor, executar a função PercorrerVetor
-  GlobalNames.forEach(PercorrerVetor);
-  opnioes.appendChild(ul); // Adicionar ul na div nomes para ser exibida no site
+  GlobalNamesLivro.forEach(PercorrerVetor);
+  opnioes_livro.appendChild(ul_livro); // Adicionar ul na div nomes para ser exibida no site
+
 }
+
+
 
 function PercorrerVetor(item) {
   var li = document.createElement('li');
 
+
+ 
   li.appendChild(CriarBotao()); // Cria e adiciona o botão x na li
   li.appendChild(CriarSpan(item)); // Cria e adiciona o span na li
-  ul.appendChild(li); // Adicionando li na ul
+  ul_livro.appendChild(li);
 }
+
+
 
 function CriarBotao() {
   var botao = document.createElement('button');
@@ -91,28 +111,42 @@ function CriarSpan(valor) {
 
 function EditarItem(event) {
   // Capturando valor do elemento clicado
-  var valor = event.target.innerHTML;
+  var valorLivro = event.target.innerHTML;
 
-  var index = GlobalNames.indexOf(valor); // Identificando índice
-  Input.value = GlobalNames[index];
-  AplicarFoco(Input); // Aplicando Foco no Input
+  var indexLivro = GlobalNamesLivro.indexOf(valorLivro); // Identificando índice
+  Input_livro.value = GlobalNamesLivro[indexLivro];
+  AplicarFoco(Input_livro); // Aplicando Foco no Input
   IsEditing = true;
-  Posicao = index;
+  PosicaoLivro = indexLivro;
+
 }
 
+
 // Deleta elementos da lista que forem clicados
-ul.addEventListener('click', function (event) {
+ul_livro.addEventListener('click', function (event) {
   // Realizar evento apenas quando o usário clicar no botão
   if (event.target.localName === 'button') {
     // Capturando valor do elemento clicado
-    var valor = event.srcElement.nextElementSibling.innerHTML;
+    var valorLivro = event.srcElement.nextElementSibling.innerHTML;
 
     // Deletando elemento de Global Names
-    var index = GlobalNames.indexOf(valor); // Identificando índice
-    GlobalNames.splice(index, 1);
+    var indexLivro = GlobalNamesLivro.indexOf(valorLivro); // Identificando índice
+    GlobalNamesLivro.splice(indexLivro, 1);
 
     var ancestral = event.target.parentElement;
     ancestral.remove(); // Removendo elemento do site
     ExibirVetor(); // Atualizar site e Exibir vetor com novo valor
   }
-});
+}
+
+
+
+
+
+
+
+
+
+
+
+);
