@@ -1,21 +1,21 @@
 window.addEventListener('load', start);
 
 // Declarando Variáveis Globais
-var GlobalNamesLivro = [];
-var opnioes_livro = document.querySelector('#opnioes_livro');
-var ul_livro = document.createElement('ul_livro');
-var Input_livro = document.getElementById('Input_livro');
-var form_livro = document.getElementById('Formulario_livro');
-var PosicaoLivro;
+var GlobalNamesFilme = [];
+var opnioes_filme = document.querySelector('#opnioes_filme');
+var ul_filme = document.createElement('ul_filme');
+var Input_filme = document.getElementById('Input_filme');
+var form_filme = document.getElementById('Formulario_filme');
+var PosicaoFilme;
 
 
 var IsEditing = false;
 
 
 function start() {
-  PrevenirComportamentoDefault(form_livro);
-  AplicarFoco(Input_livro);
-  CapturarValoresDigitados(Input_livro);
+  PrevenirComportamentoDefault(form_filme);
+  AplicarFoco(Input_filme);
+  CapturarValoresDigitados(Input_filme);
   ExibirVetor();
 }
 
@@ -32,17 +32,17 @@ function AplicarFoco(Objeto) {
 function CapturarValoresDigitados(Objeto) {
   Objeto.addEventListener('keyup', function (event) {
     if (event.key === 'Enter') {
-      var ValorDigitadoLivro = event.target.value; // Obtendo conteudo digitado
+      var ValorDigitadoFilme = event.target.value; // Obtendo conteudo digitado
 
       // Editar e inseris se algo for digitado
-      if (ValorDigitadoLivro) {
+      if (ValorDigitadoFilme) {
         if (IsEditing) {
           // Editando valores
-          GlobalNamesLivro.splice(PosicaoLivro, 1, ValorDigitadoLivro);
+          GlobalNamesFilme.splice(PosicaoFilme, 1, ValorDigitadoFilme);
           IsEditing = false; // Desativando modo de edição
         } else {
           // Inserindo valores
-          GlobalNamesLivro.push(ValorDigitadoLivro); // Inserindo no array GlobalNames
+          GlobalNamesFilme.push(ValorDigitadoFilme); // Inserindo no array GlobalNames
         }
       }
 
@@ -65,14 +65,14 @@ function AplicarFocoF(ObjetoF) {
 
 function ExibirVetor() {
   // Limpa conteudo da ul e input para ter novos valoresy
-  ul_livro.innerHTML = '';
-  Input_livro.value = '';
+  ul_filme.innerHTML = '';
+  Input_filme.value = '';
 
   
 
   // Para cada posição do vetor, executar a função PercorrerVetor
-  GlobalNamesLivro.forEach(PercorrerVetor);
-  opnioes_livro.appendChild(ul_livro); // Adicionar ul na div nomes para ser exibida no site
+  GlobalNamesFilme.forEach(PercorrerVetor);
+  opnioes_filme.appendChild(ul_filme); // Adicionar ul na div nomes para ser exibida no site
 
 }
 
@@ -85,7 +85,7 @@ function PercorrerVetor(item) {
  
   li.appendChild(CriarBotao()); // Cria e adiciona o botão x na li
   li.appendChild(CriarSpan(item)); // Cria e adiciona o span na li
-  ul_livro.appendChild(li);
+  ul_filme.appendChild(li);
 }
 
 
@@ -111,41 +111,33 @@ function CriarSpan(valor) {
 
 function EditarItem(event) {
   // Capturando valor do elemento clicado
-  var valorLivro = event.target.innerHTML;
+  var valorFilme = event.target.innerHTML;
 
-  var indexLivro = GlobalNamesLivro.indexOf(valorLivro); // Identificando índice
-  Input_livro.value = GlobalNamesLivro[indexLivro];
-  AplicarFoco(Input_livro); // Aplicando Foco no Input
+  var indexFilme = GlobalNamesFilme.indexOf(valorFilme); // Identificando índice
+  Input_filme.value = GlobalNamesFilme[indexFilme];
+  AplicarFoco(Input_filme); // Aplicando Foco no Input
   IsEditing = true;
-  PosicaoLivro = indexLivro;
+  PosicaoFilme = indexFilme;
 
 }
 
 
 // Deleta elementos da lista que forem clicados
-ul_livro.addEventListener('click', function (event) {
+ul_filme.addEventListener('click', function (event) {
   // Realizar evento apenas quando o usário clicar no botão
   if (event.target.localName === 'button') {
     // Capturando valor do elemento clicado
-    var valorLivro = event.srcElement.nextElementSibling.innerHTML;
+    var valorFilme = event.srcElement.nextElementSibling.innerHTML;
 
     // Deletando elemento de Global Names
-    var indexLivro = GlobalNamesLivro.indexOf(valorLivro); // Identificando índice
-    GlobalNamesLivro.splice(indexLivro, 1);
+    var indexFilme = GlobalNamesFilme.indexOf(valorFilme); // Identificando índice
+    GlobalNamesFilme.splice(indexFilme, 1);
 
     var ancestral = event.target.parentElement;
     ancestral.remove(); // Removendo elemento do site
     ExibirVetor(); // Atualizar site e Exibir vetor com novo valor
   }
 }
-
-
-
-
-
-
-
-
 
 
 
